@@ -12,12 +12,15 @@ job "basic" {
         count = 1
 
         network {
-            port "http" {}
+            mode = "bridge"
+            port "http" {
+                to = 3000
+            }
         }
 
         service {
             name = "basic"
-            tags = ["urlprefix-/"]
+            tags = ["urlprefix-/basic strip=/basic"]
             port = "http"
             provider = "consul"
 
@@ -34,11 +37,7 @@ job "basic" {
 
             config {
                 image = "glendmaatita/exercise-app:latest"
-            }
-
-            resources {
-                cpu = 50
-                memory = 100
+                ports = ["3000"]
             }
         }
     }
